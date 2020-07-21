@@ -9,11 +9,11 @@
 		],
 		"likes" : {
 			"liked" : false,
-			"likedBy" : [
+			"liked_by" : [
 				"milena_trump",  
 				"lenka_taranets_tensnailkitchen"
 			],
-			"likesCount" : 94
+			"likes_count": 94
 		},
 		"description" : "Beauty @anna_zavaskaya U+1F499U+1FA90U+1F320 @covernumberone #thebrowbarkharkov #makeup #inlove #thebrowbarkharkov",
 		"post_time" : 1595245140000
@@ -27,8 +27,8 @@
 		],
 		"likes" : {
 			"liked" : true,
-			"likedBy" : [],
-			"likesCount" : 146
+			"liked_by" : [],
+			"likes_count": 146
 		},
 		"description" : "Tattoo artist: Artem Ivanov, Zaporozhye\n@forestbandit",
 		"post_time" : 1595238300000
@@ -45,8 +45,8 @@
 		],
 		"likes" : {
 			"liked" : true,
-			"likedBy" : [],
-			"likesCount" : 77
+			"liked_by" : [],
+			"likes_count": 77
 		},
 		"description" : "Some progress on my floating tv cabinet. Still need to paint it and add the doors. But it’s slowly getting there! U+1F44D",
 		"post_time" : 1595231598000

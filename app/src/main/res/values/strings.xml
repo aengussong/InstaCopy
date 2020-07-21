@@ -1,3 +1,21 @@
 <resources>
     <string name="app_name">InstaCopy</string>
+
+    <plurals name="likes_count">
+        <item quantity="one"><b>%d like</b></item>
+        <item quantity="other"><b>%d likes</b></item>
+    </plurals>
+
+    <string name="liked_by_text">Liked by <b>%s</b> and <b>%s</b></string>
+    <plurals name="liked_by">
+        <item quantity="one">%d other</item>
+        <item quantity="other">%d others</item>
+    </plurals>
+
+    <string name="post_description"><b>%s</b> %s</string>
+
+    <plurals name="hours_elapsed">
+        <item quantity="one">$d hour ago</item>
+        <item quantity="other">%d hours ago</item>
+    </plurals>
 </resources>
