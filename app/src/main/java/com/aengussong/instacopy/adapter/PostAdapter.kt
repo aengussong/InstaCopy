@@ -3,41 +3,32 @@ package com.aengussong.instacopy.adapter
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.text.HtmlCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.aengussong.instacopy.R
+import com.aengussong.instacopy.adapter.viewholder.BasePostHolder
+import com.aengussong.instacopy.adapter.viewholder.ImageSetPostHolder
+import com.aengussong.instacopy.adapter.viewholder.ImageSinglePostHolder
+import com.aengussong.instacopy.const.*
 import com.aengussong.instacopy.model.Post
-import com.aengussong.instacopy.utils.DescriptionFormatter
-import com.aengussong.instacopy.utils.HoursCalculator
-import com.aengussong.instacopy.utils.StringCombiner
-import com.bumptech.glide.Glide
-import com.google.android.material.tabs.TabLayoutMediator
+import com.aengussong.instacopy.utils.doAsync
 import kotlinx.android.synthetic.main.item_post.view.*
-import kotlinx.android.synthetic.main.layout_image.view.*
-import kotlinx.android.synthetic.main.layout_viewpager.view.*
+import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.channels.ReceiveChannel
 
 private const val IMAGE_SINGLE = 0
 private const val IMAGE_SET = 1
 
 class PostAdapter(private val posts: Array<Post>) :
-    RecyclerView.Adapter<PostAdapter.BasePostHolder>() {
+    RecyclerView.Adapter<BasePostHolder>() {
+
+    private val channel = Channel<String>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BasePostHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.item_post, parent, false)
+        addClickListeners(view)
         return when (viewType) {
-            IMAGE_SINGLE -> {
-                val imageView = LayoutInflater.from(view.image_container.context)
-                    .inflate(R.layout.layout_image, view.image_container, false)
-                view.image_container.addView(imageView)
-                ImageSinglePostHolder(view)
-            }
-            IMAGE_SET -> {
-                val viewPager = LayoutInflater.from(view.image_container.context)
-                    .inflate(R.layout.layout_viewpager, view.image_container, false)
-                view.image_container.addView(viewPager)
-                view.tabs.visibility = View.VISIBLE
-                ImageSetPostHolder(view)
-            }
+            IMAGE_SINGLE -> ImageSinglePostHolder(view)
+            IMAGE_SET -> ImageSetPostHolder(view)
             else -> throw java.lang.IllegalArgumentException("Unknown view type: $viewType")
         }
     }
@@ -56,72 +47,20 @@ class PostAdapter(private val posts: Array<Post>) :
         }
     }
 
-    class ImageSinglePostHolder(itemView: View) : BasePostHolder(itemView) {
-        override fun bind(post: Post) {
-            super.bind(post)
-            Glide.with(itemView).load(post.postImages.first()).into(itemView.post_image)
+    fun getOnClickChannel(): ReceiveChannel<String> = channel
+
+    private fun addClickListeners(view: View) {
+        view.apply {
+            userpic.sendOnClick(N_EASTER_EGG)
+            btn_options.sendOnClick(N_OPTIONS)
+            btn_like.sendOnClick(N_LIKE)
+            btn_comment.sendOnClick(N_COMMENT)
+            btn_message.sendOnClick(N_SHARE)
+            btn_bookmark.sendOnClick(N_BOOKMARK)
         }
     }
 
-    class ImageSetPostHolder(itemView: View) : BasePostHolder(itemView) {
-
-        private val pagerAdapter = ViewPagerAdapter()
-
-        init {
-            itemView.post_viewpager.adapter = pagerAdapter
-            TabLayoutMediator(itemView.tabs, itemView.post_viewpager) { tab, _ ->
-                tab.view.isClickable = false
-            }.attach()
-        }
-
-        override fun bind(post: Post) {
-            super.bind(post)
-            pagerAdapter.updateData(post.postImages)
-        }
-    }
-
-    open class BasePostHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-
-        open fun bind(post: Post) {
-            itemView.apply {
-                Glide.with(this).load(post.userpic).into(userpic)
-                username.text = post.username
-                place.visibility = if (post.location != null) View.VISIBLE else View.GONE
-                post.location?.let {
-                    place.text = resources.getString(R.string.location_template, it)
-                }
-
-                post.likes.let { likeData ->
-                    val likeResource =
-                        if (likeData.isLiked) R.drawable.ic_like_filled else R.drawable.ic_like_unfilled
-                    btn_like.setImageResource(likeResource)
-                    val likeText = if (likeData.likedBy.isEmpty()) {
-                        resources.getQuantityString(
-                            R.plurals.likes_count,
-                            likeData.likesCount,
-                            likeData.likesCount
-                        )
-                    } else {
-                        val likedByCombined =
-                            StringCombiner(", ").combine(likeData.likedBy).toString()
-                        val likedByCount = resources.getQuantityString(
-                            R.plurals.liked_by,
-                            likeData.likedBy.size,
-                            likeData.likedBy.size
-                        )
-                        resources.getString(R.string.liked_by_text, likedByCombined, likedByCount)
-                    }
-                    post_likes.text =
-                        HtmlCompat.fromHtml(likeText, HtmlCompat.FROM_HTML_MODE_LEGACY)
-
-                    post_description.text =
-                        DescriptionFormatter.format(post.username, post.description)
-                }
-
-                val elapsedHours = HoursCalculator.calculateElapsedHours(post.postTime)
-                post_time.text =
-                    resources.getQuantityString(R.plurals.hours_elapsed, elapsedHours, elapsedHours)
-            }
-        }
+    private fun View.sendOnClick(msg: String) {
+        setOnClickListener { doAsync { channel.send(msg) } }
     }
 }

@@ -1,4 +1,4 @@
-package com.aengussong.instacopy
+package com.aengussong.instacopy.app
 
 import android.app.Application
 import com.aengussong.instacopy.di.dataModule
