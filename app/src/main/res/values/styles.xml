@@ -8,4 +8,53 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <style name="MarginStartNormal">
+        <item name="android:layout_marginStart">@dimen/padding_normal</item>
+        <item name="android:layout_marginLeft">@dimen/padding_normal</item>
+    </style>
+
+    <style name="MarginEndNormal">
+        <item name="android:layout_marginRight">@dimen/padding_normal</item>
+        <item name="android:layout_marginEnd">@dimen/padding_normal</item>
+    </style>
+
+    <style name="MarginTopStartNormal" parent="MarginStartNormal">
+        <item name="android:layout_marginTop">@dimen/padding_normal</item>
+    </style>
+
+    <style name="TextNormal" parent="Widget.AppCompat.TextView">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@android:color/black</item>
+        <item name="android:textSize">@dimen/text_normal</item>
+    </style>
+
+    <style name="AvatarMedium" parent="MarginTopStartNormal">
+        <item name="android:layout_width">@dimen/avatar_size</item>
+        <item name="android:layout_height">@dimen/avatar_size</item>
+        <item name="civ_border_color">@color/mercury</item>
+        <item name="civ_border_width">2dp</item>
+    </style>
+
+    <style name="Username" parent="MarginStartNormal">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@android:color/black</item>
+        <item name="android:textSize">@dimen/text_medium</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="IconButton">
+        <item name="android:layout_width">@dimen/icon_size</item>
+        <item name="android:layout_height">@dimen/icon_size</item>
+    </style>
+
+    <style name="DotsTab">
+        <item name="android:layout_height">@dimen/tab_layout_height</item>
+        <item name="tabBackground">@drawable/tab_selector</item>
+        <item name="tabIndicatorHeight">0dp</item>
+        <item name="tabPaddingEnd">@dimen/tab_layout_padding</item>
+        <item name="tabPaddingStart">@dimen/tab_layout_padding</item>
+    </style>
+
 </resources>

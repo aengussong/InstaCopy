@@ -6,7 +6,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.aengussong.instacopy.R
 import com.bumptech.glide.Glide
-import kotlinx.android.synthetic.main.item_post_image.view.*
+import kotlinx.android.synthetic.main.item_vp_image.view.*
 
 class ViewPagerAdapter : RecyclerView.Adapter<ViewPagerAdapter.PagerVH>() {
 
@@ -16,7 +16,7 @@ class ViewPagerAdapter : RecyclerView.Adapter<ViewPagerAdapter.PagerVH>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PagerVH {
         val view =
-            LayoutInflater.from(parent.context).inflate(R.layout.item_post_image, parent, false)
+            LayoutInflater.from(parent.context).inflate(R.layout.item_vp_image, parent, false)
         return PagerVH(view)
     }
 

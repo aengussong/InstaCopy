@@ -3,20 +3,17 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:paddingTop="20dp">
+    android:layout_height="wrap_content">
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/userpic"
-        android:layout_width="96dp"
-        android:layout_height="96dp"
+        style="@style/AvatarMedium"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/username"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        style="@style/Username"
         app:layout_constraintBottom_toTopOf="@+id/place"
         app:layout_constraintStart_toEndOf="@+id/userpic"
         app:layout_constraintTop_toTopOf="@id/userpic"
@@ -24,85 +21,100 @@
 
     <TextView
         android:id="@+id/place"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        style="@style/TextNormal"
         app:layout_constraintBottom_toBottomOf="@+id/userpic"
-        app:layout_constraintStart_toEndOf="@+id/userpic"
+        app:layout_constraintStart_toStartOf="@+id/username"
         app:layout_constraintTop_toBottomOf="@id/username"
         tools:text="test place" />
 
     <ImageView
         android:id="@+id/btn_options"
+        style="@style/MarginEndNormal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@drawable/ic_menu_options"
+        app:layout_constraintBottom_toBottomOf="@id/userpic"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="@id/userpic" />
 
-    <ViewStub
-        android:id="@+id/image_stub"
+    <FrameLayout
+        android:id="@+id/image_container"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:layout_marginTop="@dimen/padding_normal"
         app:layout_constraintDimensionRatio="1:1"
         app:layout_constraintTop_toBottomOf="@id/userpic" />
 
-    <ImageButton
+    <ImageView
         android:id="@+id/btn_like"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        style="@style/IconButton"
+        android:layout_marginStart="@dimen/padding_normal"
+        android:layout_marginLeft="@dimen/padding_normal"
+        android:layout_marginTop="@dimen/padding_normal"
         android:src="@drawable/ic_like_unfilled"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/image_stub" />
+        app:layout_constraintTop_toBottomOf="@id/image_container" />
 
-    <ImageButton
+    <ImageView
         android:id="@+id/btn_comment"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        style="@style/IconButton"
+        android:layout_marginStart="@dimen/padding_normal"
+        android:layout_marginLeft="@dimen/padding_normal"
         android:src="@drawable/ic_comment"
         app:layout_constraintStart_toEndOf="@id/btn_like"
         app:layout_constraintTop_toTopOf="@id/btn_like" />
 
-    <ImageButton
+    <ImageView
         android:id="@+id/btn_message"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        style="@style/IconButton"
+        android:layout_marginStart="@dimen/padding_normal"
+        android:layout_marginLeft="@dimen/padding_normal"
         android:src="@drawable/ic_send"
         app:layout_constraintStart_toEndOf="@id/btn_comment"
         app:layout_constraintTop_toTopOf="@id/btn_comment" />
 
-    <ImageButton
+    <ImageView
         android:id="@+id/btn_bookmark"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        style="@style/IconButton"
+        android:layout_marginEnd="@dimen/padding_normal"
+        android:layout_marginRight="@dimen/padding_normal"
         android:src="@drawable/ic_bookmark"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@id/btn_message" />
 
     <com.google.android.material.tabs.TabLayout
         android:id="@+id/tabs"
+        style="@style/DotsTab"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="@id/btn_message"
-        app:layout_constraintEnd_toStartOf="@id/btn_bookmark"
-        app:layout_constraintStart_toEndOf="@id/btn_message"
-        app:layout_constraintTop_toTopOf="@id/btn_message"
-        app:tabBackground="@drawable/tab_selector"
-        app:tabGravity="center"
-        app:tabIndicatorHeight="0dp" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/btn_message" />
 
     <TextView
         android:id="@+id/post_likes"
+        style="@style/TextNormal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/padding_normal"
+        android:layout_marginLeft="@dimen/padding_normal"
+        android:layout_marginTop="@dimen/padding_normal"
+        android:layout_marginEnd="@dimen/padding_normal"
+        android:textSize="15sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/btn_like"
         tools:text="Liked by 64" />
 
     <TextView
         android:id="@+id/post_description"
+        style="@style/TextNormal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/padding_normal"
+        android:layout_marginTop="@dimen/padding_normal"
+        android:layout_marginEnd="@dimen/padding_normal"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/post_likes"
         tools:text="Test post description with test text" />
@@ -111,7 +123,10 @@
         android:id="@+id/post_time"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="@dimen/padding_small"
+        android:textAllCaps="true"
+        android:textSize="@dimen/text_small"
+        app:layout_constraintStart_toStartOf="@id/post_description"
         app:layout_constraintTop_toBottomOf="@id/post_description"
         tools:text="test time ago" />
 

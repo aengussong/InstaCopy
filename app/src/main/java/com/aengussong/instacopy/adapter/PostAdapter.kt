@@ -3,9 +3,11 @@ package com.aengussong.instacopy.adapter
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.text.HtmlCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.aengussong.instacopy.R
 import com.aengussong.instacopy.model.Post
+import com.aengussong.instacopy.utils.DescriptionFormatter
 import com.aengussong.instacopy.utils.HoursCalculator
 import com.aengussong.instacopy.utils.StringCombiner
 import com.bumptech.glide.Glide
@@ -24,17 +26,15 @@ class PostAdapter(private val posts: Array<Post>) :
         val view = LayoutInflater.from(parent.context).inflate(R.layout.item_post, parent, false)
         return when (viewType) {
             IMAGE_SINGLE -> {
-                view.image_stub.apply {
-                    layoutResource = R.layout.layout_image
-                    inflate()
-                }
+                val imageView = LayoutInflater.from(view.image_container.context)
+                    .inflate(R.layout.layout_image, view.image_container, false)
+                view.image_container.addView(imageView)
                 ImageSinglePostHolder(view)
             }
             IMAGE_SET -> {
-                view.image_stub.apply {
-                    layoutResource = R.layout.layout_viewpager
-                    inflate()
-                }
+                val viewPager = LayoutInflater.from(view.image_container.context)
+                    .inflate(R.layout.layout_viewpager, view.image_container, false)
+                view.image_container.addView(viewPager)
                 view.tabs.visibility = View.VISIBLE
                 ImageSetPostHolder(view)
             }
@@ -69,7 +69,9 @@ class PostAdapter(private val posts: Array<Post>) :
 
         init {
             itemView.post_viewpager.adapter = pagerAdapter
-            TabLayoutMediator(itemView.tabs, itemView.post_viewpager) { _, _ -> }.attach()
+            TabLayoutMediator(itemView.tabs, itemView.post_viewpager) { tab, _ ->
+                tab.view.isClickable = false
+            }.attach()
         }
 
         override fun bind(post: Post) {
@@ -85,13 +87,15 @@ class PostAdapter(private val posts: Array<Post>) :
                 Glide.with(this).load(post.userpic).into(userpic)
                 username.text = post.username
                 place.visibility = if (post.location != null) View.VISIBLE else View.GONE
-                post.location?.let { place.text = it }
+                post.location?.let {
+                    place.text = resources.getString(R.string.location_template, it)
+                }
 
                 post.likes.let { likeData ->
                     val likeResource =
                         if (likeData.isLiked) R.drawable.ic_like_filled else R.drawable.ic_like_unfilled
                     btn_like.setImageResource(likeResource)
-                    post_likes.text = if (likeData.likedBy.isEmpty()) {
+                    val likeText = if (likeData.likedBy.isEmpty()) {
                         resources.getQuantityString(
                             R.plurals.likes_count,
                             likeData.likesCount,
@@ -107,12 +111,11 @@ class PostAdapter(private val posts: Array<Post>) :
                         )
                         resources.getString(R.string.liked_by_text, likedByCombined, likedByCount)
                     }
+                    post_likes.text =
+                        HtmlCompat.fromHtml(likeText, HtmlCompat.FROM_HTML_MODE_LEGACY)
 
-                    post_description.text = resources.getString(
-                        R.string.post_description,
-                        post.username,
-                        post.description
-                    )
+                    post_description.text =
+                        DescriptionFormatter.format(post.username, post.description)
                 }
 
                 val elapsedHours = HoursCalculator.calculateElapsedHours(post.postTime)

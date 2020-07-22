@@ -18,10 +18,12 @@ class StringCombiner(private val delimiter: String) {
     }
 
     private fun prepareBuilder(): StringBuilder {
-        return if (this::builder.isInitialized)
+        if (this::builder.isInitialized)
             builder.append(delimiter)
-        else
-            builder.also { builder = StringBuilder() }
+        else {
+            builder = StringBuilder()
+        }
+        return builder
     }
 
     override fun toString(): String {
