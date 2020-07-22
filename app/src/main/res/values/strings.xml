@@ -17,6 +17,11 @@
         Liked by <b>%s</b> and <b>%s</b>
         ]]>
     </string>
+    <string name="likes">Likes</string>
+    <string name="home">Home</string>
+    <string name="search">Search</string>
+    <string name="add_photo">Add Photo</string>
+    <string name="user_profile">User Profile</string>
 
     <plurals name="liked_by">
         <item quantity="one">%d other</item>
